@@ -93,7 +93,7 @@ class PaymentWallet extends Component {
           <h1 style="font-size: 3rem;">------------------ • ------------------</h1>
           <h1 style="font-size: 3rem;">Transaction</h1>
           <h1 style="font-size: 3rem;">Amount: ${
-            this.state.transactionDisplay.amount
+            epsilonRound(this.state.transactionDisplay.amount, 8)
           } ${this.state.transactionDisplay.name}</h1>
           <h1 style="font-size: 3rem;">------------------ • ------------------</h1>
           <img style="width:70%" src='${

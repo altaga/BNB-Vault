@@ -3,6 +3,7 @@ import {ethers} from 'ethers';
 import React, {Component, Fragment} from 'react';
 import {
   Dimensions,
+  Keyboard,
   NativeEventEmitter,
   Pressable,
   ScrollView,
@@ -106,7 +107,7 @@ export default class Tab2 extends Component {
       this.EventEmitter.addListener(
         'updateBalances', async () => {
           await this.refresh();
-          
+          Keyboard.dismiss();
         }
       )
       const refreshCheck = Date.now();

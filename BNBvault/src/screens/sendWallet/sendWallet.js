@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {
   Dimensions,
   Image,
+  Keyboard,
+  NativeEventEmitter,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -42,6 +44,7 @@ class SendWallet extends Component {
   constructor(props) {
     super(props);
     this.state = SendWalletBaseState;
+    this.EventEmitter = new NativeEventEmitter();
   }
 
   static contextType = ContextModule;
@@ -49,11 +52,18 @@ class SendWallet extends Component {
   async componentDidMount() {
     this.props.navigation.addListener('focus', async () => {
       console.log(this.props.route.name);
-      //console.log(this.context.value.publicKey);
+      this.EventEmitter.addListener('updateBalances', async () => {
+        Keyboard.dismiss();
+        this.setState(SendWalletBaseState);
+      });
     });
     this.props.navigation.addListener('blur', async () => {
       this.setState(SendWalletBaseState);
     });
+  }
+
+  async componentWillUnmount() {
+    this.EventEmitter.removeAllListeners('updateBalances');
   }
 
   // Utils
@@ -226,12 +236,12 @@ class SendWallet extends Component {
                         to: this.state.toAddress,
                         amount: this.state.amount,
                         tokenSymbol: this.state.tokenSelected.symbol,
-                        maxFlag : false,
-                        withSavings: false
+                        maxFlag: false,
+                        withSavings: true,
                       },
                     });
                   }}>
-                  <Text style={[GlobalStyles.buttonText]}>Transfer</Text>
+                  <Text style={[GlobalStyles.buttonText]}>Execute</Text>
                 </Pressable>
               </ScrollView>
             </SafeAreaView>
